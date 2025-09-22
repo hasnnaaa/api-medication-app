@@ -3,7 +3,8 @@ import { MedicationModel } from "../models/medicationModel.js";
 export const MedicationController = {
   async getAll(req, res) {
     try {
-      const meds = await MedicationModel.getAll();
+      const { name, page, limit } = req.query;
+      const meds = await MedicationModel.getAll(name, page, limit);
       res.json(meds);
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -24,7 +25,7 @@ export const MedicationController = {
       const med = await MedicationModel.create(req.body);
       res.status(201).json(med);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      res.status(err.statusCode || 500).json({ error: err.message });
     }
   },
 
@@ -33,7 +34,7 @@ export const MedicationController = {
       const med = await MedicationModel.update(req.params.id, req.body);
       res.json(med);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      res.status(err.statusCode || 500).json({ error: err.message });
     }
   },
 

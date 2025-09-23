@@ -51,7 +51,7 @@ export const MedicationModel = {
     const { quantity, price } = payload;
     if (quantity < 0 || price < 0) {
       const error = new Error("Quantity and price must not be less than 0");
-      error.statusCose = 400;
+      error.statusCode = 400;
       throw error;
     }
 
